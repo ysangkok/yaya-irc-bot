@@ -26,7 +26,7 @@ class GroovyExecutionListener extends ListenerAdapter<PircBotX> {
     }
 
     private void executeGroovyCodeWithTimeout(final String code, final MessageEvent<PircBotX> event, final long timeoutInMs) {
-        def lockObj = new Object()
+        final def lockObj = new Object()
         def timeouted = false
         def tFinished = false
         def t2Finished = false
