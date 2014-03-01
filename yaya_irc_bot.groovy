@@ -37,10 +37,10 @@ def confBuilder = new Configuration.Builder<PircBotX>()
     .setLogin("LQ")
     .setAutoNickChange(true) //Automatically change nick when the current one is in use
     .addListener(new IrcListenerManager())
+    .setCapEnabled(true) //Enable CAP features
+    .addCapHandler(new TLSCapHandler(new UtilSSLSocketFactory().trustAllCertificates(), true))
 if (useSsl) {
     confBuilder.setSocketFactory(SSLSocketFactory.getDefault())
-            .setCapEnabled(true) //Enable CAP features
-            .addCapHandler(new TLSCapHandler(new UtilSSLSocketFactory().trustAllCertificates(), true))
 }
 if (!password.isEmpty()) confBuilder.setServerPassword(password)
 if (!channels.isEmpty()) confBuilder.addAutoJoinChannel(channels)
