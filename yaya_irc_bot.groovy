@@ -10,6 +10,10 @@ import org.pircbotx.PircBotX;
 import org.pircbotx.UtilSSLSocketFactory;
 import org.pircbotx.cap.TLSCapHandler;
 
+// セキュリティポリシー
+System.setProperty("java.security.policy", "java.policy")
+System.setSecurityManager(new SecurityManager());
+
 // コマンドライン引数
 def cli = new CliBuilder(usage: "yaya irc bot")
 cli.h(longOpt: 'host', argName: 'hostname', required: true, args: 1, 'host or h')

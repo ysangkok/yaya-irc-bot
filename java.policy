@@ -1,0 +1,14 @@
+grant codeBase "file:${groovy.home}/-" {
+    permission java.security.AllPermission;
+};
+
+grant codeBase "file:${user.home}/.groovy/grapes/-" {
+    permission java.security.AllPermission;
+};
+
+grant codeBase "file:./-" {
+    permission java.security.AllPermission;
+};
+
+grant codeBase "file:/restrictedScript" {
+};
