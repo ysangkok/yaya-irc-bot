@@ -6,7 +6,7 @@ import org.pircbotx.hooks.events.MessageEvent
 
 class IncDecCounterListener extends ListenerAdapter<PircBotX> {
 
-    def counters = [:]
+    private def counters = [:]
 
     /**
      * スレッドセーフ

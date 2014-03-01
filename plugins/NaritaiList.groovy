@@ -6,7 +6,7 @@ import org.pircbotx.hooks.events.MessageEvent
 
 class NaritaiListener extends ListenerAdapter<PircBotX> {
 
-    def userToNaritaiMonoListMap = [:]
+    private def userToNaritaiMonoListMap = [:]
 
     /**
      * スレッドセーフ
