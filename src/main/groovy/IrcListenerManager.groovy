@@ -11,6 +11,7 @@ class IrcListenerManager implements Listener<PircBotX> {
 
     private final GroovyClassLoader loader
     private final ReloadCommandListener reloadCommandListener
+    private final UpdateCommandListener updateCommandListener
     // 複数スレッドから同時に変更されることがないようにすること
     private List<Listener<PircBotX>> listeners
 
@@ -20,6 +21,7 @@ class IrcListenerManager implements Listener<PircBotX> {
         reloadCommandListener = new ReloadCommandListener({
             reloadPluginedListeners()
         })
+        updateCommandListener = new UpdateCommandListener()
     }
 
     private synchronized void reloadPluginedListeners() {
@@ -42,6 +44,7 @@ class IrcListenerManager implements Listener<PircBotX> {
      */
     @Override
     void onEvent(Event<PircBotX> event) {
+        updateCommandListener.onEvent(event)
         final List<Listener<PircBotX>> ll
         // 必要であればプラグインを読み込み直してプラグイン一覧を取得。
         // 読み込み直しは同期して行う。
