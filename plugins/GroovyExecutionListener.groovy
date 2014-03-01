@@ -21,7 +21,7 @@ class GroovyExecutionListener extends ListenerAdapter<PircBotX> {
         def m = event.getMessage() =~ /\Agroovy:(.+)\z/
         if (m.matches()) {
             def code = m.group(1)
-            executeGroovyCodeWithTimeout(code, event, 2000)
+            executeGroovyCodeWithTimeout(code, event, 5000)
         }
     }
 
@@ -33,10 +33,19 @@ class GroovyExecutionListener extends ListenerAdapter<PircBotX> {
         final def t = new Thread() {
             @Override void run() {
                 try {
+                    Binding binding = new Binding()
+                    // 標準出力を設定 (println は取れるけど System.out はダメそう)
+                    def buf = new StringWriter()
+                    binding.setProperty("out", buf)
                     def config = new CompilerConfiguration()
                     config.addCompilationCustomizers(new ASTTransformationCustomizer(ThreadInterrupt))
-                    def res = new GroovyShell(config).evaluate(new GroovyCodeSource(code, "RestrictedScript", "/restrictedScript"))
-                    event.getChannel().send().notice("${res}".replaceAll("\\s+", " "))
+                    def res = new GroovyShell(binding, config).evaluate(new GroovyCodeSource(code, "RestrictedScript", "/restrictedScript"))
+                    if (!buf.toString().isEmpty()) {
+                        buf.toString().split("\n").each {
+                            event.getChannel().send().notice("${it}".replaceAll("\\s+", " "))
+                        }
+                    }
+                    event.getChannel().send().notice("> ${res}".replaceAll("\\s+", " "))
                 } catch (Throwable err) {
                     event.getChannel().send().notice("『${err.message}』 ってエラーが出たよ＞＜".replaceAll("\\s+", " "))
                 }
