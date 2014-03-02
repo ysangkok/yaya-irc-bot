@@ -24,9 +24,9 @@ class NaritaiListener extends ListenerAdapter<PircBotX> {
             event.getChannel().send().notice("${targetUserName} さんがなりたいもの...φ(＞ω＜ )ﾒﾓﾒﾓ")
         }
 
-        m = event.getMessage() =~ /なりたいものリスト/
+        m = event.getMessage() =~ /(?:(.*?\S)\s*(?:さん)?(?:の|が))?なりたいもの(?:は\?|リスト)?/
         if (m.matches()) {
-            def targetUserName = event.user.realName
+            def targetUserName = m.group(1) ?: event.user.realName
             if (userToNaritaiMonoListMap[targetUserName] != null) {
                 def res = userToNaritaiMonoListMap[targetUserName].join(" とか ")
                 event.getChannel().send().notice("${targetUserName} さんは ${res} になりたいみたいです。")
