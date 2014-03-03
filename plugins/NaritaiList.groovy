@@ -48,7 +48,7 @@ class NaritaiListener extends ListenerAdapter<PircBotX> {
                 def res = userToNaritaiMonoListMap[targetUserName].join(" とか ")
                 event.getChannel().send().notice("${targetUserName} さんは ${res} になりたいみたいです。")
             } else {
-                event.getChannel().send().notice("${targetUserName} さんがなりたいものを知らないです＞＜")
+                event.getChannel().send().notice("${targetUserName} さんは何になりたいんでしょうか ヽ^ｼ▰╹ヮ╹)ﾉｼ")
             }
         }
     }
