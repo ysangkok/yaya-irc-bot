@@ -13,7 +13,7 @@ class NaritaiListener extends ListenerAdapter<PircBotX> {
      */
     @Override
     synchronized void onMessage(MessageEvent<PircBotX> event) {
-        def m = event.getMessage() =~ /(\S+)になりたい/
+        def m = event.getMessage() =~ /(.*\S)\s*になりたい/
         if (m.matches()) {
             def targetUserName = event.user.realName
             def naritaiMono = m.group(1)
