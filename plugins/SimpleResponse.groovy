@@ -1,6 +1,7 @@
 package info.vividcode.yaya.plugin.listeners
 
 import java.util.List
+import java.util.Random
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -11,13 +12,20 @@ import org.pircbotx.hooks.events.MessageEvent
 class SimpleResponse extends ListenerAdapter<PircBotX> {
 
     private static class ResponseDefinition {
-        public Pattern pattern;
-        public List<String> responseMessages;
+        private Random random = new Random()
+        public Pattern pattern
+        public List<String> responseMessages
+        public String getResponseMessageRandomly() {
+            responseMessages[random.nextInt(responseMessages.size())]
+        }
     }
 
     private static final RESPONSE_DEF_LIST = [
         new ResponseDefinition(pattern: ~/寒い|さむい/, responseMessages: [
             "お布団の中でぬくぬくしましょう c(╹ω╹*c[＿＿＿]",
+        ]),
+        new ResponseDefinition(pattern: ~/mecha\b/, responseMessages: [
+            "iroi!", "(っ﹏-).｡oO( めちゃねむい... )",
         ]),
     ]
 
@@ -29,7 +37,7 @@ class SimpleResponse extends ListenerAdapter<PircBotX> {
         for (ResponseDefinition d : RESPONSE_DEF_LIST) {
             Matcher m = d.pattern.matcher(event.message)
             if (m.find()) {
-                String msg = d.responseMessages[0]
+                String msg = d.getResponseMessageRandomly()
                 event.channel.send().notice(msg)
             }
         }
