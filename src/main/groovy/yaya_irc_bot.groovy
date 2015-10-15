@@ -1,6 +1,3 @@
-@Grab(group='org.pircbotx', module='pircbotx', version='2.0.1')
-@Grab(group='org.slf4j', module='slf4j-simple', version='1.7.+')
-
 import java.nio.charset.Charset;
 
 import javax.net.ssl.SSLSocketFactory;
@@ -10,9 +7,7 @@ import org.pircbotx.PircBotX;
 import org.pircbotx.UtilSSLSocketFactory;
 import org.pircbotx.cap.TLSCapHandler;
 
-// セキュリティポリシー
-System.setProperty("java.security.policy", "java.policy")
-System.setSecurityManager(new SecurityManager());
+System.setSecurityManager(null);
 
 // コマンドライン引数
 def cli = new CliBuilder(usage: "yaya irc bot")
@@ -21,6 +16,7 @@ cli._(longOpt: 'port', argName: 'port', args: 1, 'port number')
 cli._(longOpt: 'use-ssl', 'Use SSL')
 cli.p(longOpt: 'password', argName: 'password', args: 1, 'password or p' )
 cli.c(longOpt: 'channel', argName: 'channels', args: 1, 'channel or c' )
+cli.c(longOpt: 'channel2', argName: 'channels2', args: 1, 'channel2 or c2' )
 def opt = cli.parse(args)
 if (!opt) {
     System.exit 1
@@ -30,6 +26,7 @@ int     port     = (opt['port'] ? Integer.parseInt(opt['port']) : 6667)
 boolean useSsl   = (opt['use-ssl'] ? true : false)
 String  password = (opt['p'] ? opt['p'] : '')
 String  channels = (opt['c'] ? opt['c'] : '')
+String  channels2 = (opt['c2'] ? opt['c2'] : '')
 
 //Setup this bot
 def confBuilder = new Configuration.Builder<PircBotX>()
@@ -48,6 +45,7 @@ if (useSsl) {
 }
 if (!password.isEmpty()) confBuilder.setServerPassword(password)
 if (!channels.isEmpty()) confBuilder.addAutoJoinChannel(channels)
+if (!channels2.isEmpty()) confBuilder.addAutoJoinChannel(channels2)
 
 Configuration configuration = confBuilder.buildConfiguration()
 
