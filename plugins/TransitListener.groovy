@@ -13,10 +13,10 @@ import de.schildbach.pte.dto.Product
 
 import de.schildbach.pte.*
 
-class TransitListener extends ListenerAdapter<PircBotX> {
+class TransitListener extends ListenerAdapter {
     private def trips = null
 
-    void nextConn(MessageEvent<PircBotX> event) {
+    void nextConn(MessageEvent event) {
         def trip = trips.poll()
         if (trip == null) {
             event.getChannel().send().notice("no more connections")
@@ -37,7 +37,7 @@ class TransitListener extends ListenerAdapter<PircBotX> {
     }
 
     @Override
-    synchronized void onMessage(MessageEvent<PircBotX> event) {
+    synchronized void onMessage(MessageEvent event) {
         def nex = event.getMessage() =~ /next connection/
         if (nex.matches() && trips != null) {
             nextConn(event)

@@ -7,13 +7,13 @@ import org.pircbotx.PircBotX
 import org.pircbotx.hooks.Event
 import org.pircbotx.hooks.Listener
 
-class IrcListenerManager implements Listener<PircBotX> {
+class IrcListenerManager implements Listener {
 
     private final GroovyClassLoader loader
     private final ReloadCommandListener reloadCommandListener
     private final UpdateCommandListener updateCommandListener
     // 複数スレッドから同時に変更されることがないようにすること
-    private List<Listener<PircBotX>> listeners
+    private List<Listener> listeners
 
     IrcListenerManager() {
         loader = new GroovyClassLoader()
@@ -25,7 +25,7 @@ class IrcListenerManager implements Listener<PircBotX> {
     }
 
     private synchronized void reloadPluginedListeners() {
-        listeners = new ArrayList<Listener<PircBotX>>()
+        listeners = new ArrayList<Listener>()
         loader.clearCache()
         def ds = Files.newDirectoryStream(Paths.get("plugins"))
         for (def entry : ds) {
@@ -43,7 +43,7 @@ class IrcListenerManager implements Listener<PircBotX> {
      * スレッドセーフ (プラグインされた各リスナのスレッドセーフ性はプラグイン側で保証されているものとする)
      */
     @Override
-    void onEvent(Event<PircBotX> event) {
+    void onEvent(Event event) {
         updateCommandListener.onEvent(event)
         final List<Listener<PircBotX>> ll
         // 必要であればプラグインを読み込み直してプラグイン一覧を取得。

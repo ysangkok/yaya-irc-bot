@@ -2,7 +2,7 @@ import org.pircbotx.PircBotX;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.MessageEvent;
 
-class UpdateCommandListener extends ListenerAdapter<PircBotX> {
+class UpdateCommandListener extends ListenerAdapter {
 
     private static final long NOT_UPDATED = -1
     /** update を実行できる最小の間隔。 2 分。 */
@@ -13,7 +13,7 @@ class UpdateCommandListener extends ListenerAdapter<PircBotX> {
      * スレッドセーフ
      */
     @Override
-    public void onMessage(MessageEvent<PircBotX> event) {
+    public void onMessage(MessageEvent event) {
         if (event.getMessage() ==~ /update\s+yaya/) {
             if (!checkUpdateInterval()) {
                 event.getChannel().send().notice("更新間隔が短いから今回は更新しませんっ!!")

@@ -4,7 +4,7 @@ import org.pircbotx.PircBotX
 import org.pircbotx.hooks.ListenerAdapter
 import org.pircbotx.hooks.events.MessageEvent
 
-class IncDecCounterListener extends ListenerAdapter<PircBotX> {
+class IncDecCounterListener extends ListenerAdapter {
 
     private def counters = [:]
 
@@ -12,7 +12,7 @@ class IncDecCounterListener extends ListenerAdapter<PircBotX> {
      * スレッドセーフ
      */
     @Override
-    synchronized void onMessage(MessageEvent<PircBotX> event) {
+    synchronized void onMessage(MessageEvent event) {
         def m = event.getMessage() =~ /(\S+)\+\+/
         if (m.matches()) {
             def targetName = m.group(1)

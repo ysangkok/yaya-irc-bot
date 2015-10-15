@@ -15,8 +15,7 @@ cli.h(longOpt: 'host', argName: 'hostname', required: true, args: 1, 'host or h'
 cli._(longOpt: 'port', argName: 'port', args: 1, 'port number')
 cli._(longOpt: 'use-ssl', 'Use SSL')
 cli.p(longOpt: 'password', argName: 'password', args: 1, 'password or p' )
-cli.c(longOpt: 'channel', argName: 'channels', args: 1, 'channel or c' )
-cli.c(longOpt: 'channel2', argName: 'channels2', args: 1, 'channel2 or c2' )
+cli.c(longOpt: 'channels', argName: 'channels', args: 1, 'channels or c' )
 def opt = cli.parse(args)
 if (!opt) {
     System.exit 1
@@ -26,7 +25,6 @@ int     port     = (opt['port'] ? Integer.parseInt(opt['port']) : 6667)
 boolean useSsl   = (opt['use-ssl'] ? true : false)
 String  password = (opt['p'] ? opt['p'] : '')
 String  channels = (opt['c'] ? opt['c'] : '')
-String  channels2 = (opt['c2'] ? opt['c2'] : '')
 
 //Setup this bot
 def confBuilder = new Configuration.Builder<PircBotX>()
@@ -44,8 +42,7 @@ if (useSsl) {
     confBuilder.setSocketFactory(SSLSocketFactory.getDefault())
 }
 if (!password.isEmpty()) confBuilder.setServerPassword(password)
-if (!channels.isEmpty()) confBuilder.addAutoJoinChannel(channels)
-if (!channels2.isEmpty()) confBuilder.addAutoJoinChannel(channels2)
+if (!channels.isEmpty()) for (s in channels.split(",")) confBuilder.addAutoJoinChannel(s)
 
 Configuration configuration = confBuilder.buildConfiguration()
 

@@ -9,7 +9,7 @@ import org.pircbotx.PircBotX
 import org.pircbotx.hooks.ListenerAdapter
 import org.pircbotx.hooks.events.MessageEvent
 
-class SimpleResponse extends ListenerAdapter<PircBotX> {
+class SimpleResponse extends ListenerAdapter {
 
     private static class ResponseDefinition {
         private Random random = new Random()
@@ -33,7 +33,7 @@ class SimpleResponse extends ListenerAdapter<PircBotX> {
      * スレッドセーフ
      */
     @Override
-    synchronized void onMessage(MessageEvent<PircBotX> event) {
+    synchronized void onMessage(MessageEvent event) {
         for (ResponseDefinition d : RESPONSE_DEF_LIST) {
             Matcher m = d.pattern.matcher(event.message)
             if (m.find()) {

@@ -11,13 +11,13 @@ import org.pircbotx.PircBotX
 import org.pircbotx.hooks.ListenerAdapter
 import org.pircbotx.hooks.events.MessageEvent
 
-class GroovyExecutionListener extends ListenerAdapter<PircBotX> {
+class GroovyExecutionListener extends ListenerAdapter {
 
     /**
      * スレッドセーフ
      */
     @Override
-    synchronized void onMessage(MessageEvent<PircBotX> event) {
+    synchronized void onMessage(MessageEvent event) {
         def m = event.getMessage() =~ /\Agroovy:(.+)\z/
         if (m.matches()) {
             def code = m.group(1)
@@ -25,7 +25,7 @@ class GroovyExecutionListener extends ListenerAdapter<PircBotX> {
         }
     }
 
-    private void executeGroovyCodeWithTimeout(final String code, final MessageEvent<PircBotX> event, final long timeoutInMs) {
+    private void executeGroovyCodeWithTimeout(final String code, final MessageEvent event, final long timeoutInMs) {
         final def lockObj = new Object()
         def timeouted = false
         def tFinished = false

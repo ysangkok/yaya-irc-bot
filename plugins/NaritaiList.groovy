@@ -5,7 +5,7 @@ import org.pircbotx.User
 import org.pircbotx.hooks.ListenerAdapter
 import org.pircbotx.hooks.events.MessageEvent
 
-class NaritaiListener extends ListenerAdapter<PircBotX> {
+class NaritaiListener extends ListenerAdapter {
 
     private def userToNaritaiMonoListMap = [:]
 
@@ -13,7 +13,7 @@ class NaritaiListener extends ListenerAdapter<PircBotX> {
      * スレッドセーフ
      */
     @Override
-    synchronized void onMessage(MessageEvent<PircBotX> event) {
+    synchronized void onMessage(MessageEvent event) {
         def m = event.getMessage() =~ /(.*\S)\s*になりたい/
         if (m.matches()) {
             def targetUserName = event.user.nick
